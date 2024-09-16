@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Mover : MonoBehaviour
 {
-    [SerializeField] private Transform _placesPoint;
+    [SerializeField] private Transform _placesConteiner;
     [SerializeField] private float _speed;
     [SerializeField] private int _targetIndex;
 
@@ -10,10 +10,10 @@ public class Mover : MonoBehaviour
 
     private void Start()
     {
-        _places = new Transform[_placesPoint.childCount];
+        _places = new Transform[_placesConteiner.childCount];
 
-        for (int i = 0; i < _placesPoint.childCount; i++)
-            _places[i] = _placesPoint.GetChild(i);
+        for (int i = 0; i < _places.Length; i++)
+            _places[i] = _placesConteiner.GetChild(i);
     }
 
     private void Update()
@@ -22,14 +22,13 @@ public class Mover : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, _speed * Time.deltaTime);
 
         if (transform.position == targetPoint.position)
-            TakeNextTarget();
+            ChangeTarget();
     }
 
-    private void TakeNextTarget()
+    private void ChangeTarget()
     {
-        _targetIndex = (_targetIndex + 1) % _places.Length;
+        _targetIndex = ++_targetIndex % _places.Length;
 
-        Vector3 nextPosition = _places[_targetIndex].transform.position;
-        transform.forward = nextPosition - transform.position;
+        transform.forward = _places[_targetIndex].transform.position - transform.position;
     }
 }
