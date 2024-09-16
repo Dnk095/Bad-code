@@ -24,7 +24,9 @@ public class BulletSpawner : MonoBehaviour
             Mover bullet = Instantiate(_bulletPrefab, transform.position + direction, Quaternion.identity);
 
             bullet.transform.up = direction;
-            bullet.GetComponent<Rigidbody>().velocity = direction * _multiplier;
+
+            if (bullet.TryGetComponent(out Rigidbody bulletRigidbody))
+                bulletRigidbody.velocity = direction * _multiplier;
 
             yield return wait;
         }
