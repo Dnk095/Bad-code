@@ -1,10 +1,10 @@
 using UnityEngine;
 
-public class GoPlaces : MonoBehaviour
+public class Mover : MonoBehaviour
 {
     [SerializeField] private Transform _placesPoint;
     [SerializeField] private float _speed;
-    [SerializeField] private int _targetNumber;
+    [SerializeField] private int _targetIndex;
 
     private Transform[] _places;
 
@@ -18,7 +18,7 @@ public class GoPlaces : MonoBehaviour
 
     private void Update()
     {
-        Transform targetPoint = _places[_targetNumber];
+        Transform targetPoint = _places[_targetIndex];
         transform.position = Vector3.MoveTowards(transform.position, targetPoint.position, _speed * Time.deltaTime);
 
         if (transform.position == targetPoint.position)
@@ -27,9 +27,9 @@ public class GoPlaces : MonoBehaviour
 
     private void TakeNextTarget()
     {
-        _targetNumber = (_targetNumber + 1) % _places.Length;
+        _targetIndex = (_targetIndex + 1) % _places.Length;
 
-        Vector3 nextPosition = _places[_targetNumber].transform.position;
+        Vector3 nextPosition = _places[_targetIndex].transform.position;
         transform.forward = nextPosition - transform.position;
     }
 }
