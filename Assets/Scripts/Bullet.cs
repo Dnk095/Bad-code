@@ -5,8 +5,14 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float _speed;
 
+    private Rigidbody _rigidbody;
+
+    private void Awake()
+    {
+        _rigidbody = GetComponent<Rigidbody>();
+    }
     public void Move(Vector3 direction)
     {
-        GetComponent<Rigidbody>().velocity = direction * _speed;
+        _rigidbody.velocity = direction * _speed;
     }
 }
